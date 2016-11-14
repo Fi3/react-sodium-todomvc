@@ -33,7 +33,7 @@ function childrenMap(props)
 {
     return React.Children
         .map(props.children,
-            (child => React.cloneElement(child, {id: 555})));
+            (child => React.cloneElement(child, {props})));
 }
 
 function Tick(x)
@@ -58,9 +58,6 @@ Tick.prototype.every = curry(function (ms)
 });
 
 Tick.prototype.fork = function () { /* fork */ };
-
-Tick.of(function() { return 5;})
-    .every(100);
 
 Tick.every = function () { /* simple */ };
 
@@ -204,3 +201,5 @@ const renderApp = Component.of(rLoop)
     .ap(Component.of(HomePage))
     .ap(Component.of('#app-2'))
     .ap(Component.of({id: 10}));
+
+

@@ -108,7 +108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function childrenMap(props) {
 	    return _react2.default.Children.map(props.children, function (child) {
-	        return _react2.default.cloneElement(child, { id: 555 });
+	        return _react2.default.cloneElement(child, { props: props });
 	    });
 	}
 	
@@ -134,10 +134,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	
 	Tick.prototype.fork = function () {/* fork */};
-	
-	Tick.of(function () {
-	    return 5;
-	}).every(100);
 	
 	Tick.every = function () {/* simple */};
 	
