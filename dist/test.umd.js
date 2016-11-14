@@ -122,19 +122,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	Component.prototype.concat = function (other) {
 	
-	    return new Component([this.__value].concat(other));
+	    return new Component(flatten([this.__value].concat(other)));
 	};
 	
 	Component.prototype.map = function (f) {
 	    return new Component(f(this.__value));
 	};
 	
-	Component.prototype.ap = function (other) {
-	    return other.map(this.__value);
+	var join = function join(other) {
+	    return other.join();
 	};
 	
-	Component.prototype.flatMap = function (f) {
-	    return new Component(f(flatten(this.__value)));
+	Component.prototype.ap = function (other) {
+	    return other.map(this.__value);
 	};
 	
 	Component.prototype.join = function () {
@@ -263,13 +263,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var AppUpdate = rLoop(compSeq, '#app-1');
 	AppUpdate({ id: 10 });
 	
-	var App = Component.of(Home).concat(Home).concat(ContentA).flatMap(function (r) {
-	    return r;
-	}).join();
+	var App = Component.of(Home).concat(Home).concat(ContentA).concat(ContentB).concat(ContentC);
 	
-	var HomePage = compose(render(Page))(App);
-	
-	// Fix for multi components -> React.children issue
+	var HomePage = compose(render(Page), join)(App);
 	var renderApp = Component.of(rLoop).ap(Component.of(HomePage)).ap(Component.of('#app-2')).ap(Component.of({ id: 10 }));
 
 /***/ },

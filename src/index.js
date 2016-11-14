@@ -41,48 +41,49 @@ function Component(x)
     this.__value = x;
 }
 
-Component.of = function(x)
+Component.of = function (x)
 {
     return new Component(x);
 };
 
-Component.prototype.empty = function()
+Component.prototype.empty = function ()
 {
     return new Component(null);
 };
 
-function flatten(seq) {
+function flatten(seq)
+{
     return seq.reduce(function flat(a, b)
     {
-        if({}.toString.call(b) === '[object Array]') return b.reduce(flat, a);
+        if ({}.toString.call(b) === '[object Array]') return b.reduce(flat, a);
         a.push(b);
         return a;
     }, []);
 }
 
-Component.prototype.concat = function(other)
+Component.prototype.concat = function (other)
 {
 
-    return new Component([this.__value].concat(other));
+    return new Component(flatten([this.__value].concat(other)));
 };
 
-Component.prototype.map = function(f)
+Component.prototype.map = function (f)
 {
     return new Component(f(this.__value));
 };
 
-Component.prototype.ap = function(other)
+const join = function join(other)
+{
+    return other.join();
+};
+
+Component.prototype.ap = function (other)
 {
     return other.map(this.__value);
 };
 
-Component.prototype.flatMap = function(f)
-{
-    return new Component(f(flatten(this.__value)));
-};
 
-
-Component.prototype.join = function()
+Component.prototype.join = function ()
 {
     return this.__value;
 };
@@ -102,12 +103,12 @@ const ContentC = (props) =>
     return <p>Widget C</p>;
 };
 
-class Page extends React.Component
-{
+class Page extends React.Component {
     constructor(props)
     {
         super(props);
     }
+
     render()
     {
         return <div>
@@ -117,12 +118,12 @@ class Page extends React.Component
     }
 }
 
-class Home extends React.Component
-{
+class Home extends React.Component {
     constructor(props)
     {
         super(props);
     }
+
     render()
     {
         return <div>
@@ -136,7 +137,7 @@ const rLoop = curry(function rLoop(C, id)
 {
     return (props) =>
     {
-        ReactDOM.render(React.cloneElement(C, { props }), document.querySelector(id));
+        ReactDOM.render(React.cloneElement(C, {props}), document.querySelector(id));
         return rLoop(C, id);
     }
 });
@@ -144,36 +145,37 @@ const rLoop = curry(function rLoop(C, id)
 
 function renderAdapter(B)
 {
-    switch({}.toString.call(B))
+    switch ({}.toString.call(B))
     {
         case '[object Function]':
             return <B />;
         case '[object Object]':
             return B;
         case '[object Array]':
-            return B.map(C => <C key={Math.random()} />);
+            return B.map(C => <C key={Math.random()}/>);
     }
 }
 
-const render = (A) => (B) => { return  <A>{ renderAdapter(B) }</A> };
+const render = (A) => (B) =>
+{
+    return <A>{ renderAdapter(B) }</A>
+};
 const compose = (...fns) => (x) => fns.reverse().reduce((a, b) => b(a), x);
 const compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 const AppUpdate = rLoop(compSeq, '#app-1');
       AppUpdate({id: 10});
 
-var App = Component.of(Home)
+const App = Component.of(Home)
     .concat(Home)
     .concat(ContentA)
-    .flatMap(r => r)
-    .join();
+    .concat(ContentB)
+    .concat(ContentC);
 
-var HomePage = compose(render(Page))(App);
-
-// Fix for multi components -> React.children issue
-var renderApp = Component.of(rLoop)
-   .ap(Component.of(HomePage))
-   .ap(Component.of('#app-2'))
-   .ap(Component.of({id: 10}));
+const HomePage = compose(render(Page), join)(App);
+const renderApp = Component.of(rLoop)
+    .ap(Component.of(HomePage))
+    .ap(Component.of('#app-2'))
+    .ap(Component.of({id: 10}));
 
 
 
