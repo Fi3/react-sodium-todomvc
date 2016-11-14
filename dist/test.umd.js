@@ -262,18 +262,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 	var AppUpdate = rLoop(compSeq, '#app-1');
 	AppUpdate({ id: 10 });
-	/*
-	var App = Component.of(Home)
-	    .concat(Page)
-	    .concat(Page)
-	    .flatMap((r) => renderAdapter(r));
-
+	
+	var App = Component.of(Home).concat(Home).concat(ContentA).flatMap(function (r) {
+	    return r;
+	}).join();
+	
+	var HomePage = compose(render(Page))(App);
+	
 	// Fix for multi components -> React.children issue
-	var renderApp = Component.of(rLoop)
-	   .ap(Component.of(App))
-	   .ap(Component.of('#app-2'))
-	   .ap(Component.of({id: 10}));
-	   */
+	var renderApp = Component.of(rLoop).ap(Component.of(HomePage)).ap(Component.of('#app-2')).ap(Component.of({ id: 10 }));
 
 /***/ },
 /* 1 */

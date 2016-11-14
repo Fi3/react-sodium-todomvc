@@ -160,18 +160,20 @@ const compose = (...fns) => (x) => fns.reverse().reduce((a, b) => b(a), x);
 const compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 const AppUpdate = rLoop(compSeq, '#app-1');
       AppUpdate({id: 10});
-/*
+
 var App = Component.of(Home)
-    .concat(Page)
-    .concat(Page)
-    .flatMap((r) => renderAdapter(r));
+    .concat(Home)
+    .concat(ContentA)
+    .flatMap(r => r)
+    .join();
+
+var HomePage = compose(render(Page))(App);
 
 // Fix for multi components -> React.children issue
 var renderApp = Component.of(rLoop)
-   .ap(Component.of(App))
+   .ap(Component.of(HomePage))
    .ap(Component.of('#app-2'))
    .ap(Component.of({id: 10}));
-   */
 
 
 
