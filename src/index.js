@@ -39,6 +39,8 @@ function childrenMap(props)
 //        Tick.every(100, doSth).fork(resp => console.log(resp));
 //        Tick.of(val).transact(resp => /* ... */);
 
+// Future :
+
 function Component(x)
 {
     this.__value = x;
