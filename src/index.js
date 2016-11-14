@@ -27,6 +27,7 @@ function curry(fn)
     }
 }
 
+const compose = (...fns) => (x) => fns.reverse().reduce((a, b) => b(a), x);
 
 function childrenMap(props)
 {
@@ -35,11 +36,33 @@ function childrenMap(props)
             (child => React.cloneElement(child, {id: 555})));
 }
 
-// Tick : Tick.of(doSth).every(100).fork(resp => console.log(resp);
-//        Tick.every(100, doSth).fork(resp => console.log(resp));
-//        Tick.of(val).transact(resp => /* ... */);
+function Tick(x)
+{
+    this.__value = x;
+}
 
-// Future :
+Tick.of = function (x)
+{
+    return new Tick(x);
+};
+
+Tick.prototype.map = function (f)
+{
+    return new Tick(compose(this.__value, f));
+};
+
+Tick.prototype.every = curry(function (ms)
+{
+    var interval = () => setInterval(this.__value, ms);
+    return new Tick(interval);
+});
+
+Tick.prototype.fork = function () { /* fork */ };
+
+Tick.of(function() { return 5;})
+    .every(100);
+
+Tick.every = function () { /* simple */ };
 
 function Component(x)
 {
@@ -165,10 +188,10 @@ const render = (A) => (B) =>
 {
     return <A>{ renderAdapter(B) }</A>
 };
-const compose = (...fns) => (x) => fns.reverse().reduce((a, b) => b(a), x);
+
 const compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 const AppUpdate = rLoop(compSeq, '#app-1');
-      AppUpdate({id: 10});
+AppUpdate({id: 10});
 
 const App = Component.of(Home)
     .concat(Home)

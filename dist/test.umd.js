@@ -94,15 +94,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 	
+	var compose = function compose() {
+	    for (var _len = arguments.length, fns = Array(_len), _key = 0; _key < _len; _key++) {
+	        fns[_key] = arguments[_key];
+	    }
+	
+	    return function (x) {
+	        return fns.reverse().reduce(function (a, b) {
+	            return b(a);
+	        }, x);
+	    };
+	};
+	
 	function childrenMap(props) {
 	    return _react2.default.Children.map(props.children, function (child) {
 	        return _react2.default.cloneElement(child, { id: 555 });
 	    });
 	}
 	
-	// Tick : Tick.of(doSth).every(100).fork(resp => console.log(resp);
-	//        Tick.every(100, doSth).fork(resp => console.log(resp));
-	//        Tick.of(val).transact(resp => /* ... */);
+	function Tick(x) {
+	    this.__value = x;
+	}
+	
+	Tick.of = function (x) {
+	    return new Tick(x);
+	};
+	
+	Tick.prototype.map = function (f) {
+	    return new Tick(compose(this.__value, f));
+	};
+	
+	Tick.prototype.every = curry(function (ms) {
+	    var _this = this;
+	
+	    var interval = function interval() {
+	        return setInterval(_this.__value, ms);
+	    };
+	    return new Tick(interval);
+	});
+	
+	Tick.prototype.fork = function () {/* fork */};
+	
+	Tick.of(function () {
+	    return 5;
+	}).every(100);
+	
+	Tick.every = function () {/* simple */};
 	
 	function Component(x) {
 	    this.__value = x;
@@ -252,17 +289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        );
 	    };
 	};
-	var compose = function compose() {
-	    for (var _len = arguments.length, fns = Array(_len), _key = 0; _key < _len; _key++) {
-	        fns[_key] = arguments[_key];
-	    }
 	
-	    return function (x) {
-	        return fns.reverse().reduce(function (a, b) {
-	            return b(a);
-	        }, x);
-	    };
-	};
 	var compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 	var AppUpdate = rLoop(compSeq, '#app-1');
 	AppUpdate({ id: 10 });
