@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.7"
+    "babel-loader": "^6.2.7",
+    "babel-preset-stage-1": "^6.16.0"
   }
 }

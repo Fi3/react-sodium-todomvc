@@ -28,11 +28,11 @@ function curry(fn)
 }
 
 
-function childrenMap()
+function childrenMap(props)
 {
     return React.Children
-        .map(this.props.children,
-            (child => React.cloneElement(child, {...this.props})));
+        .map(props.children,
+            (child => React.cloneElement(child, {id: 555})));
 }
 
 
@@ -112,7 +112,7 @@ class Page extends React.Component
     {
         return <div>
             <h1>A Page</h1>
-            {childrenMap.bind(this)()}
+            {childrenMap(this.props)}
         </div>;
     }
 }
@@ -126,7 +126,7 @@ class Home extends React.Component
     render()
     {
         return <div>
-            {childrenMap.bind(this)()}
+            {childrenMap(this.props)}
         </div>;
     }
 }
@@ -160,8 +160,7 @@ const compose = (...fns) => (x) => fns.reverse().reduce((a, b) => b(a), x);
 const compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 const AppUpdate = rLoop(compSeq, '#app-1');
       AppUpdate({id: 10});
-
-
+/*
 var App = Component.of(Home)
     .concat(Page)
     .concat(Page)
@@ -172,6 +171,7 @@ var renderApp = Component.of(rLoop)
    .ap(Component.of(App))
    .ap(Component.of('#app-2'))
    .ap(Component.of({id: 10}));
+   */
 
 
 

@@ -74,6 +74,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var Rfly = {
+	    curry: curry,
+	    childrenMap: childrenMap,
+	    renderAdapter: renderAdapter,
+	    render: render,
+	    rLoop: rLoop
+	};
+	
 	function curry(fn) {
 	    var arity = fn.length;
 	    return getArgs([]);
@@ -84,6 +92,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (nextTotalArgs.length >= arity) return fn.apply(this, nextTotalArgs);else return getArgs(nextTotalArgs);
 	        };
 	    }
+	}
+	
+	function childrenMap(props) {
+	    return _react2.default.Children.map(props.children, function (child) {
+	        return _react2.default.cloneElement(child, { id: 555 });
+	    });
 	}
 	
 	function Component(x) {
@@ -171,7 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    null,
 	                    'A Page'
 	                ),
-	                this.props.children
+	                childrenMap(this.props)
 	            );
 	        }
 	    }]);
@@ -194,7 +208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                this.props.children
+	                childrenMap(this.props)
 	            );
 	        }
 	    }]);
@@ -248,13 +262,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var compSeq = compose(render(Page), render(Home))([ContentA, ContentB, ContentC]);
 	var AppUpdate = rLoop(compSeq, '#app-1');
 	AppUpdate({ id: 10 });
-	
-	var App = Component.of(Home).concat(Page).concat(Page).flatMap(function (r) {
-	    return renderAdapter(r);
-	});
-	
+	/*
+	var App = Component.of(Home)
+	    .concat(Page)
+	    .concat(Page)
+	    .flatMap((r) => renderAdapter(r));
+
 	// Fix for multi components -> React.children issue
-	var renderApp = Component.of(rLoop).ap(Component.of(renderAdapter(Page))).ap(Component.of('#app-2')).ap(Component.of({ id: 10 }));
+	var renderApp = Component.of(rLoop)
+	   .ap(Component.of(App))
+	   .ap(Component.of('#app-2'))
+	   .ap(Component.of({id: 10}));
+	   */
 
 /***/ },
 /* 1 */
