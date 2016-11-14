@@ -100,6 +100,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	}
 	
+	// Tick : Tick.of(doSth).every(100).fork(resp => console.log(resp);
+	//        Tick.every(100, doSth).fork(resp => console.log(resp));
+	//        Tick.of(val).transact(resp => /* ... */);
+	
 	function Component(x) {
 	    this.__value = x;
 	}

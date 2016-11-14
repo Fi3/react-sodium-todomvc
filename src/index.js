@@ -35,6 +35,9 @@ function childrenMap(props)
             (child => React.cloneElement(child, {id: 555})));
 }
 
+// Tick : Tick.of(doSth).every(100).fork(resp => console.log(resp);
+//        Tick.every(100, doSth).fork(resp => console.log(resp));
+//        Tick.of(val).transact(resp => /* ... */);
 
 function Component(x)
 {
@@ -176,12 +179,3 @@ const renderApp = Component.of(rLoop)
     .ap(Component.of(HomePage))
     .ap(Component.of('#app-2'))
     .ap(Component.of({id: 10}));
-
-
-
-
-
-
-
-
-
