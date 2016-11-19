@@ -8,7 +8,7 @@ var config = {
     name: 'test',
     src: './src',
     out: '',
-    mainEntry: './src/index.js',
+    mainEntry: './src/main.js',
     plugins: []
 };
 

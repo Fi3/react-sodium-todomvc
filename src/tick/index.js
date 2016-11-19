@@ -1,4 +1,4 @@
-import {curry} from '../core';
+import {curry, compose} from '../core';
 
 function Tick(x)
 {
