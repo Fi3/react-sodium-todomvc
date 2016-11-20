@@ -4,19 +4,19 @@ import {StreamSink} from 'sodiumjs';
 export default class TodoList
 {
     sTodoList;
+    sCompleteStream;
     sRemoveStream;
 
     constructor(todoList)
     {
         this.sTodoList = todoList;
 
-        const sStreamSnk = new StreamSink();
-        this.sRemoveStream = sStreamSnk;
+        this.sRemoveStream = new StreamSink();
         this.sCompleteStream = new StreamSink();
 
         this.removeTodo = (index) => () =>
         {
-            sStreamSnk.send(index);
+            this.sRemoveStream.send(index);
         };
 
         this.completeTodo = (index) => () =>
