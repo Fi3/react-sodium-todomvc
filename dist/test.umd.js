@@ -84,7 +84,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _page2 = _interopRequireDefault(_page);
 	
-	var _content = __webpack_require__(209);
+	var _index = __webpack_require__(209);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -120,8 +120,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            /* *-- Loop Start *--->  */
 	            var value = new _sodiumjs.CellLoop();
 	
-	            _this.topSection = new _content.ContentA();
-	            _this.todoList = new _content.TodoList(value);
+	            _this.topSection = new _index.Header();
+	            _this.todoList = new _index.TodoList(value);
 	
 	            var sAdd = _this.topSection.sSubmit.map(function (v) {
 	                return { name: v, done: false };
@@ -135,14 +135,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            var sAddTodo = sAdd.snapshot(value, Todo.addTodo);
 	            var sRemoveTodo = sRemove.snapshot(value, Todo.removeTodo);
-	            var sCompleteTodo = sComplete.snapshot(value, Todo.completeTodo());
+	            var sCompleteTodo = sComplete.snapshot(value, Todo.completeTodo);
 	
 	            var sDelta = sAddTodo.orElse(sRemoveTodo).orElse(sCompleteTodo);
 	
 	            value.loop(sDelta.hold([]));
 	            /* ----> Loop End <---- */
 	
-	            _this.reactUpdate = (0, _core.rLoop)((0, _page2.default)([_this.topSection.render, _this.todoList.render, _content.ContentB, _content.ContentC]), id)({ todos: value.sample() });
+	            _this.reactUpdate = (0, _core.rLoop)((0, _page2.default)([_this.topSection.render, _this.todoList.render, _index.ToggleAll, _index.Footer]), id)({ todos: value.sample() });
 	
 	            _this.todoList.sTodoList.listen(function (todos) {
 	                return _this.reactUpdate({ todos: todos });
@@ -26407,119 +26407,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
-	exports.ContentC = exports.TodoList = exports.ContentB = exports.ContentA = undefined;
+	exports.Footer = exports.TodoList = exports.ToggleAll = exports.Header = undefined;
 	
-	var _react = __webpack_require__(37);
+	var _header = __webpack_require__(211);
 	
-	var _react2 = _interopRequireDefault(_react);
+	var _header2 = _interopRequireDefault(_header);
 	
-	var _sodiumjs = __webpack_require__(2);
+	var _footer = __webpack_require__(212);
 	
-	var _either = __webpack_require__(210);
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _todoList = __webpack_require__(213);
+	
+	var _todoList2 = _interopRequireDefault(_todoList);
+	
+	var _toggleAll = __webpack_require__(214);
+	
+	var _toggleAll2 = _interopRequireDefault(_toggleAll);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var ContentA = exports.ContentA = function ContentA() {
-	    var _this = this;
-	
-	    _classCallCheck(this, ContentA);
-	
-	    this.render = function (props) {
-	        return _react2.default.createElement(
-	            'header',
-	            { className: 'header' },
-	            _react2.default.createElement(
-	                'h1',
-	                null,
-	                'todos'
-	            ),
-	            _react2.default.createElement('input', { onKeyPress: _this.onEnter,
-	                className: 'new-todo', placeholder: 'What needs to be done?' })
-	        );
-	    };
-	
-	    var sUserChangesSnk = new _sodiumjs.StreamSink();
-	
-	    this.sSubmit = sUserChangesSnk.filter(function (v) {
-	        return v;
-	    });
-	
-	    this.onEnter = function (event) {
-	        var keyPress = event.charCode !== 13 ? _either.Left.of(null) : _either.Right.of(event.target.value);
-	
-	        keyPress.map(function (val) {
-	            return sUserChangesSnk.send(event.target.value);
-	        });
-	    };
-	};
-	
-	var ContentB = exports.ContentB = function ContentB(props) {
-	    return _react2.default.createElement(
-	        'section',
-	        { className: 'main' },
-	        _react2.default.createElement('input', { className: 'toggle-all', type: 'checkbox' })
-	    );
-	};
-	
-	var TodoList = exports.TodoList = function TodoList(todoList) {
-	    var _this2 = this;
-	
-	    _classCallCheck(this, TodoList);
-	
-	    this.render = function (_ref) {
-	        var todos = _ref.props.todos;
-	
-	        return _react2.default.createElement(
-	            'ul',
-	            { className: 'todo-list' },
-	            todos.length ? todos.map(function (todo, index) {
-	                return _react2.default.createElement(
-	                    'li',
-	                    { key: index, className: todo.done ? "completed" : "" },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'view' },
-	                        _react2.default.createElement('input', { onClick: _this2.completeTodo(index), className: 'toggle', type: 'checkbox' }),
-	                        _react2.default.createElement(
-	                            'label',
-	                            null,
-	                            todo.name
-	                        ),
-	                        _react2.default.createElement('button', { onClick: _this2.removeTodo(index),
-	                            className: 'destroy' })
-	                    ),
-	                    _react2.default.createElement('input', { className: 'edit' })
-	                );
-	            }) : null
-	        );
-	    };
-	
-	    this.sTodoList = todoList;
-	
-	    var sStreamSnk = new _sodiumjs.StreamSink();
-	    this.sRemoveStream = sStreamSnk;
-	    this.sCompleteStream = new _sodiumjs.StreamSink();
-	
-	    this.removeTodo = function (index) {
-	        return function () {
-	            sStreamSnk.send(index);
-	        };
-	    };
-	
-	    this.completeTodo = function (index) {
-	        return function () {
-	            _this2.sCompleteStream.send(index);
-	        };
-	    };
-	};
-	
-	var ContentC = exports.ContentC = function ContentC(props) {
-	    return _react2.default.createElement('footer', null);
-	};
+	exports.Header = _header2.default;
+	exports.ToggleAll = _toggleAll2.default;
+	exports.TodoList = _todoList2.default;
+	exports.Footer = _footer2.default;
 
 /***/ },
 /* 210 */
@@ -26621,6 +26534,182 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return Right;
 	}(Either);
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(37);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _sodiumjs = __webpack_require__(2);
+	
+	var _either = __webpack_require__(210);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Header = function Header() {
+	    var _this = this;
+	
+	    _classCallCheck(this, Header);
+	
+	    this.render = function (props) {
+	        return _react2.default.createElement(
+	            'header',
+	            { className: 'header' },
+	            _react2.default.createElement(
+	                'h1',
+	                null,
+	                'todos'
+	            ),
+	            _react2.default.createElement('input', { onKeyPress: _this.onEnter,
+	                className: 'new-todo', placeholder: 'What needs to be done?' })
+	        );
+	    };
+	
+	    var sUserChangesSnk = new _sodiumjs.StreamSink();
+	
+	    this.sSubmit = sUserChangesSnk.filter(function (v) {
+	        return v;
+	    });
+	
+	    this.onEnter = function (event) {
+	        var keyPress = event.charCode !== 13 ? _either.Left.of(null) : _either.Right.of(event.target.value);
+	
+	        keyPress.map(function (val) {
+	            return sUserChangesSnk.send(event.target.value);
+	        });
+	    };
+	};
+	
+	exports.default = Header;
+
+/***/ },
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(37);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (props) {
+	    return _react2.default.createElement('footer', null);
+	};
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(37);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _sodiumjs = __webpack_require__(2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var TodoList = function TodoList(todoList) {
+	    var _this = this;
+	
+	    _classCallCheck(this, TodoList);
+	
+	    this.render = function (_ref) {
+	        var todos = _ref.props.todos;
+	
+	        return _react2.default.createElement(
+	            'ul',
+	            { className: 'todo-list' },
+	            todos.length ? todos.map(function (todo, index) {
+	                return _react2.default.createElement(
+	                    'li',
+	                    { key: index, className: todo.done ? "completed" : "" },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'view' },
+	                        _react2.default.createElement('input', { onClick: _this.completeTodo(index), className: 'toggle', type: 'checkbox' }),
+	                        _react2.default.createElement(
+	                            'label',
+	                            null,
+	                            todo.name
+	                        ),
+	                        _react2.default.createElement('button', { onClick: _this.removeTodo(index),
+	                            className: 'destroy' })
+	                    ),
+	                    _react2.default.createElement('input', { className: 'edit' })
+	                );
+	            }) : null
+	        );
+	    };
+	
+	    this.sTodoList = todoList;
+	
+	    var sStreamSnk = new _sodiumjs.StreamSink();
+	    this.sRemoveStream = sStreamSnk;
+	    this.sCompleteStream = new _sodiumjs.StreamSink();
+	
+	    this.removeTodo = function (index) {
+	        return function () {
+	            sStreamSnk.send(index);
+	        };
+	    };
+	
+	    this.completeTodo = function (index) {
+	        return function () {
+	            _this.sCompleteStream.send(index);
+	        };
+	    };
+	};
+	
+	exports.default = TodoList;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(37);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (props) {
+	    return _react2.default.createElement(
+	        "section",
+	        { className: "main" },
+	        _react2.default.createElement("input", { className: "toggle-all", type: "checkbox" })
+	    );
+	};
 
 /***/ }
 /******/ ])

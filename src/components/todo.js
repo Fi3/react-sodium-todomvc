@@ -4,11 +4,11 @@ import {rLoop} from '../core';
 import Page from './page';
 
 import {
-    ContentA as Top,
-    ContentB as Middle,
-    ContentC as Bottom,
-    TodoList
-} from './content';
+    Header,
+    ToggleAll,
+    TodoList,
+    Footer
+} from './content/index';
 
 class Todo {
 
@@ -42,7 +42,7 @@ class Todo {
             /* *-- Loop Start *--->  */
             const value = new CellLoop();
 
-            this.topSection = new Top();
+            this.topSection = new Header();
             this.todoList = new TodoList(value);
 
             const sAdd = this.topSection.sSubmit.map(v => ({name: v, done: false}));
@@ -51,7 +51,7 @@ class Todo {
 
             const sAddTodo = sAdd.snapshot(value, Todo.addTodo);
             const sRemoveTodo = sRemove.snapshot(value, Todo.removeTodo);
-            const sCompleteTodo = sComplete.snapshot(value, Todo.completeTodo());
+            const sCompleteTodo = sComplete.snapshot(value, Todo.completeTodo);
 
             const sDelta = sAddTodo
                 .orElse(sRemoveTodo)
@@ -64,8 +64,8 @@ class Todo {
                 Page([
                     this.topSection.render,
                     this.todoList.render,
-                    Middle,
-                    Bottom
+                    ToggleAll,
+                    Footer
                 ]), id)({todos: value.sample()});
 
             this.todoList.sTodoList.listen(todos => this.reactUpdate({todos}));
