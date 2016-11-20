@@ -9,9 +9,11 @@ class Home extends Component {
 
     render()
     {
-        return <div>
-            {childrenMap(this.props)}
-        </div>;
+        return(
+            <div>
+                {childrenMap(this.props)}
+            </div>
+        );
     }
 }
 

@@ -37,7 +37,6 @@ export const rLoop = curry(function rLoop(C, id)
     }
 });
 
-
 export const renderAdapter = (B) =>
 {
     switch ({}.toString.call(B))

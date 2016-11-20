@@ -43,6 +43,7 @@ export default class TodoList
                             <input className="edit"/>
                         </li>;
                     }) : null}
-            </ul>);
+            </ul>
+        );
     }
 }

@@ -36,7 +36,6 @@ class TodoApp
 
     constructor(id)
     {
-
         Transaction.run(() =>
         {
             /* *-- Loop Start *--->  */
@@ -69,7 +68,6 @@ class TodoApp
                 ]), id)({todos: value.sample()});
 
             this.todoList.sTodoList.listen(todos => this.reactUpdate({todos}));
-
         });
 
     }

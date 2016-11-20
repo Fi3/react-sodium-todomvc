@@ -28,10 +28,12 @@ export default class Header
 
     render = (props) =>
     {
-        return (<header className="header">
-            <h1>todos</h1>
-            <input onKeyPress={this.onEnter}
+        return (
+            <header className="header">
+                <h1>todos</h1>
+                <input onKeyPress={this.onEnter}
                    className="new-todo" placeholder="What needs to be done?"/>
-        </header>)
+            </header>
+        );
     }
 }

@@ -10,10 +10,12 @@ class Page extends Component
 
     render()
     {
-        return <div>
-            <h1>A Page</h1>
-            {childrenMap(this.props)}
-        </div>;
+        return (
+            <div>
+                <h1>A Page</h1>
+                {childrenMap(this.props)}
+            </div>
+        );
     }
 }
 
