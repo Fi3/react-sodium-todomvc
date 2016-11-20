@@ -48,10 +48,12 @@ class TodoApp
             const sRemove = this.todoList.sRemoveStream.map(i => i);
             const sComplete = this.todoList.sCompleteStream.map(i => i);
 
+            /* Accumulators */
             const sAddTodo = sAdd.snapshot(value, TodoApp.addTodo);
             const sRemoveTodo = sRemove.snapshot(value, TodoApp.removeTodo);
             const sCompleteTodo = sComplete.snapshot(value, TodoApp.completeTodo);
 
+            /* Stream merge (flatmap) */
             const sDelta = sAddTodo
                 .orElse(sRemoveTodo)
                 .orElse(sCompleteTodo);
@@ -65,8 +67,10 @@ class TodoApp
                     this.todoList.render,
                     ToggleAll,
                     Footer
-                ]), id)({todos: value.sample()});
+                ]), id)
+                ({todos: value.sample()}); /* <--- Initial App state sampled */
 
+            /* Actual React props update  */
             this.todoList.sTodoList.listen(todos => this.reactUpdate({todos}));
         });
 

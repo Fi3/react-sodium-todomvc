@@ -23,7 +23,6 @@ export default class TodoList
         {
             this.sCompleteStream.send(index);
         };
-
     }
 
     render = ({props: {todos}}) =>
