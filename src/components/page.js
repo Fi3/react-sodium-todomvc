@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {childrenMap, render} from '../core';
 
-class Home extends React.Component {
+class Home extends Component {
     constructor(props)
     {
         super(props);

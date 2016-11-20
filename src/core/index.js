@@ -8,9 +8,9 @@ export const curry = (fn) =>
 
     function getArgs(totalArgs)
     {
-        return function stepTwo()
+        return function stepTwo(...args)
         {
-            var nextTotalArgs = totalArgs.concat([].slice.call(arguments, 0));
+            var nextTotalArgs = totalArgs.concat(args);
             if (nextTotalArgs.length >= arity)
                 return fn.apply(this, nextTotalArgs);
             else

@@ -56,13 +56,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var _todo = __webpack_require__(1);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _todo2 = _interopRequireDefault(_todo);
+	var _todoApp = __webpack_require__(1);
+	
+	var _todoApp2 = _interopRequireDefault(_todoApp);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	new _todo2.default("#app-1");
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var TodoMVC = function () {
+	    function TodoMVC() {
+	        _classCallCheck(this, TodoMVC);
+	    }
+	
+	    _createClass(TodoMVC, null, [{
+	        key: "main",
+	        value: function main(id) {
+	            TodoMVC.todoApp = new _todoApp2.default(id);
+	        }
+	    }]);
+	
+	    return TodoMVC;
+	}();
+	
+	TodoMVC.main("#app-1");
 
 /***/ },
 /* 1 */
@@ -90,8 +109,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Todo = function () {
-	    _createClass(Todo, null, [{
+	var TodoApp = function () {
+	    _createClass(TodoApp, null, [{
 	        key: 'addTodo',
 	        value: function addTodo(todo, acc) {
 	            acc.push(todo);
@@ -111,10 +130,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }]);
 	
-	    function Todo(id) {
+	    function TodoApp(id) {
 	        var _this = this;
 	
-	        _classCallCheck(this, Todo);
+	        _classCallCheck(this, TodoApp);
 	
 	        _sodiumjs.Transaction.run(function () {
 	            /* *-- Loop Start *--->  */
@@ -133,9 +152,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return i;
 	            });
 	
-	            var sAddTodo = sAdd.snapshot(value, Todo.addTodo);
-	            var sRemoveTodo = sRemove.snapshot(value, Todo.removeTodo);
-	            var sCompleteTodo = sComplete.snapshot(value, Todo.completeTodo);
+	            var sAddTodo = sAdd.snapshot(value, TodoApp.addTodo);
+	            var sRemoveTodo = sRemove.snapshot(value, TodoApp.removeTodo);
+	            var sCompleteTodo = sComplete.snapshot(value, TodoApp.completeTodo);
 	
 	            var sDelta = sAddTodo.orElse(sRemoveTodo).orElse(sCompleteTodo);
 	
@@ -150,10 +169,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    }
 	
-	    return Todo;
+	    return TodoApp;
 	}();
 	
-	exports.default = Todo;
+	exports.default = TodoApp;
 
 /***/ },
 /* 2 */
@@ -4871,7 +4890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.render = exports.renderAdapter = exports.rLoop = exports.join = exports.childrenMap = exports.compose = exports.curry = undefined;
+	exports.render = exports.renderAdapter = exports.rLoop = exports.childrenMap = exports.compose = exports.curry = undefined;
 	
 	var _react = __webpack_require__(37);
 	
@@ -4889,15 +4908,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    function getArgs(totalArgs) {
 	        return function stepTwo() {
-	            var nextTotalArgs = totalArgs.concat([].slice.call(arguments, 0));
+	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	                args[_key] = arguments[_key];
+	            }
+	
+	            var nextTotalArgs = totalArgs.concat(args);
 	            if (nextTotalArgs.length >= arity) return fn.apply(this, nextTotalArgs);else return getArgs(nextTotalArgs);
 	        };
 	    }
 	};
 	
 	var compose = exports.compose = function compose() {
-	    for (var _len = arguments.length, fns = Array(_len), _key = 0; _key < _len; _key++) {
-	        fns[_key] = arguments[_key];
+	    for (var _len2 = arguments.length, fns = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	        fns[_key2] = arguments[_key2];
 	    }
 	
 	    return function (x) {
@@ -4911,10 +4934,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _react2.default.Children.map(props.children, function (child) {
 	        return _react2.default.cloneElement(child, { props: props });
 	    });
-	};
-	
-	var join = exports.join = function join(other) {
-	    return other.join();
 	};
 	
 	var rLoop = exports.rLoop = curry(function rLoop(C, id) {
@@ -26375,8 +26394,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Home = function (_React$Component) {
-	    _inherits(Home, _React$Component);
+	var Home = function (_Component) {
+	    _inherits(Home, _Component);
 	
 	    function Home(props) {
 	        _classCallCheck(this, Home);
@@ -26396,7 +26415,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }]);
 	
 	    return Home;
-	}(_react2.default.Component);
+	}(_react.Component);
 	
 	exports.default = (0, _core.render)(Home);
 
@@ -26411,7 +26430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.Footer = exports.TodoList = exports.ToggleAll = exports.Header = undefined;
 	
-	var _header = __webpack_require__(211);
+	var _header = __webpack_require__(210);
 	
 	var _header2 = _interopRequireDefault(_header);
 	
@@ -26436,6 +26455,64 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(37);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _sodiumjs = __webpack_require__(2);
+	
+	var _either = __webpack_require__(211);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Header = function Header() {
+	    var _this = this;
+	
+	    _classCallCheck(this, Header);
+	
+	    this.render = function (props) {
+	        return _react2.default.createElement(
+	            'header',
+	            { className: 'header' },
+	            _react2.default.createElement(
+	                'h1',
+	                null,
+	                'todos'
+	            ),
+	            _react2.default.createElement('input', { onKeyPress: _this.onEnter,
+	                className: 'new-todo', placeholder: 'What needs to be done?' })
+	        );
+	    };
+	
+	    var sUserChangesSnk = new _sodiumjs.StreamSink();
+	
+	    this.sSubmit = sUserChangesSnk.filter(function (v) {
+	        return v;
+	    });
+	
+	    this.onEnter = function (event) {
+	        var keyPress = event.charCode !== 13 ? _either.Left.of(null) : _either.Right.of(event.target.value);
+	
+	        keyPress.map(function (val) {
+	            return sUserChangesSnk.send(event.target.value);
+	        });
+	    };
+	};
+	
+	exports.default = Header;
+
+/***/ },
+/* 211 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -26534,64 +26611,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    return Right;
 	}(Either);
-
-/***/ },
-/* 211 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(37);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _sodiumjs = __webpack_require__(2);
-	
-	var _either = __webpack_require__(210);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Header = function Header() {
-	    var _this = this;
-	
-	    _classCallCheck(this, Header);
-	
-	    this.render = function (props) {
-	        return _react2.default.createElement(
-	            'header',
-	            { className: 'header' },
-	            _react2.default.createElement(
-	                'h1',
-	                null,
-	                'todos'
-	            ),
-	            _react2.default.createElement('input', { onKeyPress: _this.onEnter,
-	                className: 'new-todo', placeholder: 'What needs to be done?' })
-	        );
-	    };
-	
-	    var sUserChangesSnk = new _sodiumjs.StreamSink();
-	
-	    this.sSubmit = sUserChangesSnk.filter(function (v) {
-	        return v;
-	    });
-	
-	    this.onEnter = function (event) {
-	        var keyPress = event.charCode !== 13 ? _either.Left.of(null) : _either.Right.of(event.target.value);
-	
-	        keyPress.map(function (val) {
-	            return sUserChangesSnk.send(event.target.value);
-	        });
-	    };
-	};
-	
-	exports.default = Header;
 
 /***/ },
 /* 212 */

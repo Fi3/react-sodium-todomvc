@@ -10,7 +10,7 @@ import {
     Footer
 } from './content/index';
 
-class Todo
+class TodoApp
 {
     topSection;
     todoList;
@@ -49,9 +49,9 @@ class Todo
             const sRemove = this.todoList.sRemoveStream.map(i => i);
             const sComplete = this.todoList.sCompleteStream.map(i => i);
 
-            const sAddTodo = sAdd.snapshot(value, Todo.addTodo);
-            const sRemoveTodo = sRemove.snapshot(value, Todo.removeTodo);
-            const sCompleteTodo = sComplete.snapshot(value, Todo.completeTodo);
+            const sAddTodo = sAdd.snapshot(value, TodoApp.addTodo);
+            const sRemoveTodo = sRemove.snapshot(value, TodoApp.removeTodo);
+            const sCompleteTodo = sComplete.snapshot(value, TodoApp.completeTodo);
 
             const sDelta = sAddTodo
                 .orElse(sRemoveTodo)
@@ -76,4 +76,4 @@ class Todo
 }
 
 
-export default Todo;
+export default TodoApp;
