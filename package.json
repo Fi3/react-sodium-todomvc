@@ -18,8 +18,10 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "rimraf": "^2.5.4",
+    "todomvc-app-css": "^2.0.6",
     "webpack": "^1.13.3",
-    "yargs": "^6.3.0"
+    "yargs": "^6.3.0",
+    "sodiumjs": "github:SodiumFRP/sodium-typescript"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

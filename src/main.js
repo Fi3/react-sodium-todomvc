@@ -1,3 +1,4 @@
-import TodoApp from './index';
+import TodoApp from './components/todo';
 
-TodoApp.main();
+new TodoApp("#app-1");
+

@@ -37,7 +37,7 @@ export const rLoop = curry(function rLoop(C, id)
 {
     return (props) =>
     {
-        ReactDOM.render(React.cloneElement(C, {props}), document.querySelector(id));
+        ReactDOM.render(React.cloneElement(C, props), document.querySelector(id));
         return rLoop(C, id);
     }
 });
