@@ -2,8 +2,8 @@ import React from 'react';
 import {StreamSink} from 'sodiumjs';
 import {Left, Right} from '../../either';
 
-export default class Header {
-
+export default class Header
+{
     text;
     sSubmit;
     onEnter;

@@ -28,11 +28,6 @@ export const childrenMap = (props) =>
             (child => React.cloneElement(child, {props})));
 };
 
-export const join = (other) =>
-{
-    return other.join();
-};
-
 export const rLoop = curry(function rLoop(C, id)
 {
     return (props) =>

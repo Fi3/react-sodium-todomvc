@@ -1,8 +1,8 @@
 import React from 'react';
 import {StreamSink} from 'sodiumjs';
 
-export default class TodoList {
-
+export default class TodoList
+{
     sTodoList;
     sRemoveStream;
 

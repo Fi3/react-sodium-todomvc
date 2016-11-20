@@ -10,8 +10,8 @@ import {
     Footer
 } from './content/index';
 
-class Todo {
-
+class Todo
+{
     topSection;
     todoList;
     reactUpdate;
