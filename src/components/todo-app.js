@@ -61,7 +61,7 @@ class TodoApp
             value.loop(sDelta.hold([]));
             /* ----> Loop End <---- */
 
-            this.reactUpdate = rLoop(
+            this.reactUpdate = rLoop( /* <--- React Render Loop */
                 Page([
                     this.topSection.render,
                     this.todoList.render,
