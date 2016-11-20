@@ -1,4 +1,15 @@
 import TodoApp from './components/todo';
 
-new TodoApp("#app-1");
+class TodoMVC
+{
+    todoApp;
+
+    static main(id)
+    {
+        TodoMVC.todoApp = new TodoApp(id);
+    }
+}
+
+TodoMVC.main("#app-1");
+
 
